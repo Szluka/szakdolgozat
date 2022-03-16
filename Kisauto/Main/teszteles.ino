@@ -1,8 +1,8 @@
-#include "includes.h"	// a szukseges fileok betoltese
+#include "includes.h"	//a szukseges fileok betoltese
 
 
-// Tesztelo rutin, kiirja a kijelzore az osszes bemenet erteket
-// -------------------------------------------------------------
+//Tesztelo rutin, kiirja a kijelzore az osszes bemenet erteket
+//-------------------------------------------------------------
 
 void teszteles()
 {
@@ -11,46 +11,46 @@ void teszteles()
   lcd.setCursor(5,0);
   lcd.print("TESZT UZEM");
 
-  // Analog Sebesseg kijelzese
+  //Analog Sebesseg kijelzése
   lcd.setCursor(4,1);
-  speed = GAZ_ALLAS;
+  speed = readGasPedal;
   lcd.print("SEB=");
   lcd.print(speed);
   lcd.print("  ");
-  lcd.print(sebesseg2Szazalek(speed));
+  lcd.print(speed_2_percentage(speed));
   lcd.print("%  ");
 
-  // index jobb
+  //index jobb
   lcd.setCursor(18,0);
-  if (INDEX_BE_JOBBRA)
+  if (isIndexSwitchRight)
     lcd.print("->");
   else 
     lcd.print("  ");
  
-  // index bal
+  //index bal
   lcd.setCursor(0,0);
-  if (INDEX_BE_BALRA)
+  if (isIndexSwitchLeft)
     lcd.print("<-");
   else 
     lcd.print("  ");
 
-  // Akku feszultseg kijelzese
-  float fesz = AKKU_FESZ_ERTEK;
+  //Akku feszultseg kijelzése
+  float fesz = readVoltage;
   lcd.setCursor(4,2);
   lcd.print("AKKU: ");
   lcd.print(fesz);
   lcd.print("V ");
  
-  // Fek kijelzese
+  //Fek kijelzése
   lcd.setCursor(0,3);
-  if (FEK_NYOMVA)
+  if (isBrakePedalON)
     lcd.print("FEK");
   else
     lcd.print("   ");
 
-  // Sebvalto nyomogomb
+  //Gear nyomogomb
   lcd.setCursor(16,3);
-  if (SEBVALTO_GOMB_BENYOMVA)
+  if (isGearSwitch)
     lcd.print("SEBV");
   else
     lcd.print("    ");

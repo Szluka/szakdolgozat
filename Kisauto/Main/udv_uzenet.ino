@@ -1,0 +1,51 @@
+#include "includes.h"
+
+void Welcome_message() {
+    lcd.setCursor(4, 1);
+    lcd.print("Hello Edison");
+    lcd.setCursor(8, 2);
+    lcd.print("Klub");
+    lcd.setCursor(5, 3);
+    lcd.print("I        I");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("#       ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("##      ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("###     ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print(" ###    ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("  ###   ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("   ###  ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("    ### ");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("     ###");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("      ##");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("       #");
+    delay(250);
+    lcd.setCursor(6, 3);
+    lcd.print("        ");
+    delay(250);
+    lcd.clear();
+    lcd.setCursor(4, 1);
+    lcd.print("System Ready");
+    lcd.setCursor(8, 2);
+    lcd.print("^__^");
+    delay(1000);
+    lcd.clear();
+}

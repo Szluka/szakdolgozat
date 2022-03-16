@@ -1,11 +1,8 @@
 #include "includes.h"
 
-
-// Index mukodteto kod
-// ----------------------------------------------------------------------------------------------------
-void index()
+void indexing()
 {
-  #define PERIODUSIDO     1000    // 1 masodperc periodusido
+  #define PERIODUSIDO     1000    //1 masodperc periodusido
   unsigned char be;
   unsigned long int ido;
 
@@ -16,45 +13,45 @@ void index()
   else
     be =0;
 
-  // Jobb index beallitasa
+  //Jobb index beállítása
   lcd.setCursor(18,0);
-  if (INDEX_BE_JOBBRA)
+  if (isIndexSwitchRight)
   {
     if(be)
     {
-      INDEX_J_BE;
+      indexRightON;
       lcd.print("->");
     }
     else
     {
-      INDEX_J_KI;
+      indexRightOFF;
       lcd.print("  ");
     }
   }
   else
   {
-    INDEX_J_KI;
+    indexRightOFF;
     lcd.print("  ");
   }
 
-   // Bal index beallitasa
+   //Bal index beállítása
   lcd.setCursor(0,0);
-  if (INDEX_BE_BALRA)
+  if (isIndexSwitchLeft)
   {
     if(be)
     {
-      INDEX_B_BE;
+      indexLeftON;
       lcd.print("<-");
     }
     else
     {
-      INDEX_B_KI;
+      indexLeftOFF;
       lcd.print("  ");
     }
   }
   else
   {
-    INDEX_B_KI;
+    indexLeftOFF;
     lcd.print("  ");
   }
   

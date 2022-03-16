@@ -1,0 +1,10 @@
+diff a/Projektek/Kicsikocsi/code/Kisauto/hardware.ino b/Projektek/Kicsikocsi/code/Kisauto/hardware.ino	(rejected hunks)
+@@ -33,7 +33,7 @@
+   pinMode(indexLeft,  INPUT_PULLUP);      //bemenet felhuzo ellenallassal
+   pinMode(indexRight,  INPUT_PULLUP);      //bemenet felhuzo ellenallassal
+   pinMode(GearSwitch, INPUT_PULLUP);      //bemenet felhuzo ellenallassal
+-
++  pinMode(ECHO_PIN, INPUT);
+   //set up the LCD's number of columns and rows:
+   lcd.begin(20, 4, LCD_5x8DOTS);
+   //Print a message to the LCD.
