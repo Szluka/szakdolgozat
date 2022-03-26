@@ -13,13 +13,15 @@ void sebvalto()
     ido = millis();
     switch (Gear)
     {
-      case Park:  Gear = Hatra;
+      case Park:  Gear = Elore;
         break;
-      case Ures:  Gear = Elore;
+      case Elore: Gear = Ures;
         break;
-      case Elore: Gear = Park;
+      case Ures:  Gear = Hatra;
         break;
-      case Hatra: Gear = Ures;
+      case Hatra: Gear = SelfD;
+        break;
+      case SelfD: Gear = Park;
         break;
     }
   }
@@ -30,13 +32,15 @@ void sebvalto()
   
   switch (Gear)
   {
-    case Park:  lcd.print("PARK "); 
+    case Park:  lcd.print("PARK ");
       break;
-    case Ures:  lcd.print("URES "); 
+    case Ures:  lcd.print("URES ");
       break;
-    case Elore: lcd.print("ELORE"); 
+    case Elore: lcd.print("ELORE");
       break;
-    case Hatra: lcd.print("HATRA"); 
+    case Hatra: lcd.print("HATRA");
+      break;
+    case SelfD: lcd.print("SELFD");
       break;
   }
 }

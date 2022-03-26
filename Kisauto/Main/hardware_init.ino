@@ -21,9 +21,11 @@ void Hardware_Init() {
 
     //irany meghatározása
     digitalWrite(DirectionOfRotation, LOW);
+    digitalWrite(DirWheel, LOW);
 
     //irany beállítása kimenetnek
     pinMode(DirectionOfRotation, OUTPUT);
+    pinMode(DirWheel, OUTPUT);
 
     /* A 6-7-8 releket most nem hasznaljuk
     digitalWrite(RELE6_PIN, HIGH);

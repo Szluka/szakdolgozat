@@ -14,26 +14,30 @@
 
 //Üzemmódok
 typedef enum {
-    Park, Ures, Elore, Hatra
+    Park, Ures, Elore, Hatra, SelfD
 } Gears;
 
 //Globalis valtozok
 //LCD inicializálása
 LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
 Gears Gear = Park;
+bool restarter = true;
 
 
 void setup() {
     Hardware_Init();
     Welcome_message();
+    Right;
+    lcd.setCursor(0,2);
+    lcd.print("RIGHT");
 }
 
 void loop() {
     indexing();
     fek_gaz();
     sebvalto();
-    Sensor();
-// teszteles();
+//  Sensor();
+//  teszteles();
 }
 
 

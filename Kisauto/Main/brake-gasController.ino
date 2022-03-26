@@ -4,6 +4,8 @@ void fek_gaz() {
 //Változók definiálása
     unsigned char percentage;
     unsigned short int actualSpeed, pwm;
+    int distanceFrontMiddle = Sensor();
+    unsigned long int turn_time;
 
     //Konvertálások
     actualSpeed = readGasPedal;
@@ -13,9 +15,9 @@ void fek_gaz() {
     // ha nyomva a fek, nem engedjuk forogni a motort
     if (isBrakePedalON) {
         brakesON;
-        if (pwm > 0) {
-            pwm = 0;
-        }
+        WheelBrakeON;
+        setPwm(0);
+        setWheel(0);
     }
 
 //Irány és sebesség beállítása
@@ -34,12 +36,46 @@ void fek_gaz() {
     }
 
     //Fek beállítása
-    if ((Gear == Park) || isBrakePedalON) {
+    if ((Gear == Park)) {
         brakesON;
     }
-    else if ((Gear != Elore)) {
-      brakesOFF;
+
+    if ((Gear != Park) && isBrakePedalOFF) {
+        brakesOFF;
     }
+
+
+    if (Gear == SelfD) {
+        Forward;
+        WheelBrakeOFF;
+        /*
+        if ((2 < distanceFrontMiddle) && (distanceFrontMiddle < 150)) {
+            lcd.setCursor(16, 2);
+            lcd.print("R");
+            setWheel(30);
+            if (restarter) {
+            turn_time = millis();
+            restarter = false;
+            }
+        }
+        if (isBrakePedalOFF) {
+            brakesOFF;
+            setPwm(pwm);
+        }
+        if ((millis()-turn_time > 1000) && !restarter) {
+            setWheel(0);
+            restarter = true;
+            lcd.setCursor(16, 2);
+            lcd.print(" ");
+        }*/
+    } else {
+      WheelBrakeOFF;
+      setWheel(0);
+      //lcd.setCursor(16, 2);
+      //lcd.print(" ");
+    }
+
+    
 
     //Fek kijelzése
     lcd.setCursor(7, 1);

@@ -16,13 +16,14 @@
 //Digitális pinek
 #define LCD_EN_PIN 21
 #define LCD_RS_PIN 20
-#define LCD_D4_PIN 10
-#define LCD_D5_PIN 11
-#define LCD_D6_PIN 12
-#define LCD_D7_PIN 13
+#define LCD_D4_PIN 42
+#define LCD_D5_PIN 44
+#define LCD_D6_PIN 46
+#define LCD_D7_PIN 48
 
 //PWM pin
 #define PWM_PIN 9
+#define PWM_WHEEL 10
 
 //Relék
 #define RELE1_PIN 0
@@ -34,6 +35,7 @@
 
 //Vezerlo kimenetek
 #define DirectionOfRotation 8
+#define DirWheel 11
 
 //Vezerlo bemenetek
 #define indexRight 5
