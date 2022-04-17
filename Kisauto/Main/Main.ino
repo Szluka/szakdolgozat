@@ -24,6 +24,7 @@ LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LC
 
 Gears Gear = Park;
 bool canRestart = true;
+bool wifiBoot = false;
 int page = 0;
 int wifiWheelPercent = 50;
 int wifiGasPercent = 0;
@@ -74,12 +75,16 @@ void setup() {
   lcd.setCursor(5, 1);
   lcd.print("Connecting");
 
+  if (isGearSwitch) {
+  wifiBoot = true;
+    
   EspSerial.begin(ESP8266_BAUD);
   delay(10);
 
   Blynk.begin(auth, wifi, ssid, pass);
 
   timer.setInterval(1000L, myTimerEvent);
+  }
 
   lcd.clear();
   lcd.setCursor(8, 0);
@@ -87,13 +92,15 @@ void setup() {
 }
 
 void loop() {
+  if (wifiBoot) {
   Blynk.run();
   timer.run();
+  }
 
   indexing();
   fek_gaz();
   sebvalto();
-  communication();
+  //communication();
 
   //teszteles();
 }
@@ -129,8 +136,6 @@ BLYNK_WRITE(V8) // Executes when the value of virtual pin 0 changes
 {
   if (Mode == 1) {
     wifiGasPercent = param.asInt();
-    setPwm(wifiGasPercent);
-    gaz_kijelzes(speed_2_percentage(wifiGasPercent));
   }
 }
 

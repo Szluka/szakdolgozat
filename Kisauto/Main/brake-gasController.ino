@@ -87,10 +87,14 @@ void fek_gaz() {
     }
     if (isBrakePedalOFF && canRestart == true) {
       brakesOFF;
+      
       if (Mode == 0) {
         setPwm(pwm);
-      }
+      } else {
 
+        setPwm(wifiGasPercent);
+        gaz_kijelzes(speed_2_percentage(wifiGasPercent));
+      }
 
     }
   }
@@ -125,6 +129,10 @@ void fek_gaz() {
 
       if (Mode == 0) {
         setPwm(pwm);
+      } else {
+
+        setPwm(wifiGasPercent);
+        gaz_kijelzes(speed_2_percentage(wifiGasPercent));
       }
     }
 
