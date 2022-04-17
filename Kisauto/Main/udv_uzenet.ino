@@ -48,4 +48,5 @@ void Welcome_message() {
     lcd.print("^__^");
     delay(1000);
     lcd.clear();
+    
 }

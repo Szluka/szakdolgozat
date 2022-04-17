@@ -1,7 +1,5 @@
 #include "hardware.h"
 
-//Magyar nyelvű változónevek átírása angolra
-
 //Kimenetek kiosztasa - makrok
 #define Forward       digitalWrite(DirectionOfRotation, HIGH)
 #define Backward      digitalWrite(DirectionOfRotation, LOW)
@@ -9,7 +7,7 @@
 #define Right         digitalWrite(DirWheel, LOW)
 
 #define setPwm(x)       analogWrite(PWM_PIN, x)
-#define setWheel(y)       analogWrite(PWM_WHEEL, y)
+#define setWheelSpeed(y)       analogWrite(PWM_WHEEL, y)
 
 //Relek kiosztasa - makrok
 #define indexLeftON        digitalWrite(RELE1_PIN, LOW)
@@ -33,8 +31,15 @@
 #define isBrakePedalOFF       (analogRead(BrakePedal) <= 512)
 #define readVoltage   (((float)(analogRead(Voltage)) * (1.0 + 6.2/1.2) * 5.0)/1023.0)
 #define readGasPedal      (analogRead(gasPotentiometer))
+#define readWheel      (analogRead(wheelPotentiometer))
+
+#define readWheelWifi (analogRead(wheelWifi))
+#define readGasWifi (analogRead(gasWifi))
 
 //Digitalis bementek lekerdezese
+#define indexL              (digitalRead(indl) == 0)
+#define readModeWifi        (digitalRead(MODE) == 0)
+
 #define isIndexSwitchLeft        (digitalRead(indexLeft) == 0)
 #define isIndexSwitchRight        (digitalRead(indexRight) == 0)
 #define isGearSwitch    (digitalRead(GearSwitch) == 0)
