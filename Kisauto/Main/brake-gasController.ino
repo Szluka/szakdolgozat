@@ -11,30 +11,30 @@ void fek_gaz() {
   int wheelPercent;
 
   int distanceFrontMiddle = Sensor(TRIGGER_PIN_FM, ECHO_PIN_FM, 1);
-  int distanceBackLeft = Sensor(TRIGGER_PIN_BL, ECHO_PIN_BL, 3);
-  int distanceBackMiddle = Sensor(TRIGGER_PIN_BM, ECHO_PIN_BM, 4);
-  int distanceBackRight = Sensor(TRIGGER_PIN_BR, ECHO_PIN_BR, 5);
+  int distanceBackLeft = Sensor(TRIGGER_PIN_RL, ECHO_PIN_RL, 3);
+  int distanceBackMiddle = Sensor(TRIGGER_PIN_RM, ECHO_PIN_RM, 4);
+  int distanceBackRight = Sensor(TRIGGER_PIN_RR, ECHO_PIN_RR, 5);
 
   //Konvertálások
   actualSpeed = readGasPedal;
   if (Mode == 0) {
     percentage = speed_2_percentage(actualSpeed);    //konvertálás percentagere 0-100
   } else {
-    percentage = wifiGasPercent;
+    percentage = speed_2_percentage(wifiGasPercent);
   }
   wheelPercent = wheel_2_percentage(readWheel);
   pwm = speed_2_pwm(actualSpeed);                  //konvertálás 8 bitre 0-255
 
+  int safeDistance = (actualSpeed / 2.2) + 5;
+
+  lcd.setCursor(14, 2);
+  lcd.print(wheelPercent);
+  lcd.print(" ");
+
   // ha nyomva a fek, nem engedjuk forogni a motort
   if (isBrakePedalON) {
     brakesON;
-    WheelBrakeON;
     setPwm(0);
-    setWheelSpeed(0);
-  }
-
-  if (wheelPercent < 5 || wheelPercent > 95) {
-    WheelBrakeON;
     setWheelSpeed(0);
   }
 
@@ -63,7 +63,6 @@ void fek_gaz() {
   //Irány és sebesség beállítása
   if (Gear == Elore) {
     Forward;
-    WheelBrakeOFF;
 
     if (Mode == 0) {
       setWheelSpeed(0);
@@ -71,7 +70,7 @@ void fek_gaz() {
       wifiWheelSet(wheelPercent);
     }
 
-    if ((2 < distanceFrontMiddle) && (distanceFrontMiddle < 80)) {
+    if ((2 < distanceFrontMiddle) && (distanceFrontMiddle < safeDistance)) {
       lcd.setCursor(18, 1);
       lcd.print("!");
       brakesON;
@@ -87,13 +86,11 @@ void fek_gaz() {
     }
     if (isBrakePedalOFF && canRestart == true) {
       brakesOFF;
-      
+
       if (Mode == 0) {
         setPwm(pwm);
       } else {
-
         setPwm(wifiGasPercent);
-        gaz_kijelzes(speed_2_percentage(wifiGasPercent));
       }
 
     }
@@ -101,7 +98,6 @@ void fek_gaz() {
 
   if (Gear == Hatra) {
     Backward;
-    WheelBrakeOFF;
 
     if (Mode == 0) {
       setWheelSpeed(0);
@@ -109,8 +105,7 @@ void fek_gaz() {
       wifiWheelSet(wheelPercent);
     }
 
-
-    if ((2 < distanceBackMiddle) && (distanceBackMiddle < 80)) {
+    if ((2 < distanceBackMiddle) && (distanceBackMiddle < safeDistance) && (2 < distanceBackLeft) && (distanceBackLeft < safeDistance) && (2 < distanceBackRight) && (distanceBackRight < safeDistance)) {
       lcd.setCursor(18, 1);
       lcd.print("!");
       brakesON;
@@ -132,7 +127,6 @@ void fek_gaz() {
       } else {
 
         setPwm(wifiGasPercent);
-        gaz_kijelzes(speed_2_percentage(wifiGasPercent));
       }
     }
 
@@ -141,72 +135,17 @@ void fek_gaz() {
   if ((Gear == Park) || (Gear == Ures)) {
     lcd.setCursor(18, 1);
     lcd.print(" ");
-    setPwm(0);    //motor letiltva
-    WheelBrakeOFF;
+    setPwm(0);
   }
 
   //Fek beállítása
   if ((Gear == Park)) {
     brakesON;
-    WheelBrakeON;
   }
 
   if ((Gear != Park) && isBrakePedalOFF) {
     brakesOFF;
-    WheelBrakeOFF;
   }
-
-
-  /*if (Gear == Sonar) {
-
-    //SHIFTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    Forward;
-    setPwm(pwm);
-
-    if (isBrakePedalOFF) {
-      WheelBrakeOFF;
-      setWheelSpeed(30);
-    }
-
-    if (wheelPercent > 80) {
-      Left;
-    }
-    if (wheelPercent < 20) {
-      Right;
-    }
-
-
-
-    //Sensor(TRIGGER_PIN_BL, ECHO_PIN_BL, 3);
-    //Sensor(TRIGGER_PIN_BR, ECHO_PIN_BR, 5);
-    //Sensor(TRIGGER_PIN_BM, ECHO_PIN_BM, 4);
-
-      if ((2 < distanceFrontMiddle) && (distanceFrontMiddle < 150)) {
-        lcd.setCursor(16, 2);
-        lcd.print("R");
-        setWheelSpeed(30);
-        if (canRestart) {
-        turn_time = millis();
-        canRestart = false;
-        }
-      }
-      if (isBrakePedalOFF) {
-        brakesOFF;
-        setPwm(pwm);
-      }
-      if ((millis()-turn_time > 1000) && !canRestart) {
-        setWheelSpeed(0);
-        canRestart = true;
-        lcd.setCursor(16, 2);
-        lcd.print(" ");
-      }
-    } else {
-    //lcd.setCursor(16, 2);
-    //lcd.print(" ");
-    }*/
-
-
 
   //Fek kijelzése
   lcd.setCursor(7, 1);
@@ -260,12 +199,12 @@ unsigned long int PB_ido;
 void park_biztonsagi(unsigned char percentage) {
   unsigned long int eltelt_ido;
 
-  if ((Gear == Park) || (percentage > 0) || (Mode == 1))                       //ha nyomjuk a gázt vagy Parkban vagyunk
+  if ((Gear == Park) || (percentage > 0) || (Mode == 1))      //ha nyomjuk a gázt vagy Parkban vagyunk
     PB_ido = millis();                                        //lementjük az időbélyeget
 
-  eltelt_ido = millis() - PB_ido;                               //Meghatarozzuk az eltelt idot
+  eltelt_ido = millis() - PB_ido;                             //Meghatarozzuk az eltelt idot
 
-  if (eltelt_ido > PB_TIMEOUT)                                  //Ha ez nagyobb
+  if (eltelt_ido > PB_TIMEOUT)                                //Ha ez nagyobb
     Gear = Park;                                              //Parkba kapcsol
 }
 

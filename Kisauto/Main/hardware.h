@@ -2,8 +2,8 @@
 //Gazpedál potméter korrigációs szélső értékei
 #define gasPotentiometerMIN 360
 #define gasPotentiometerMAX 760
-#define wheelPotentiometerMIN 142
-#define wheelPotentiometerMAX 995
+#define wheelPotentiometerMIN 110
+#define wheelPotentiometerMAX 960
 
 #define MAX_DISTANCE 400
 #define PAGE_CHANGE_TIME 500
@@ -12,7 +12,7 @@
 #define Voltage 0
 #define gasPotentiometer 1
 #define BrakePedal 2
-#define wheelPotentiometer 6
+#define wheelPotentiometer 4
 #define wheelWifi A7
 #define gasWifi A8
 
@@ -26,12 +26,12 @@
 
 #define TRIGGER_PIN_FM 22
 #define ECHO_PIN_FM 24
-#define TRIGGER_PIN_BM 30
-#define ECHO_PIN_BM 32
-#define TRIGGER_PIN_BL 26
-#define ECHO_PIN_BL 28
-#define TRIGGER_PIN_BR 34
-#define ECHO_PIN_BR 36
+#define TRIGGER_PIN_RM 30
+#define ECHO_PIN_RM 32
+#define TRIGGER_PIN_RL 26
+#define ECHO_PIN_RL 28
+#define TRIGGER_PIN_RR 34
+#define ECHO_PIN_RR 36
 
 //PWM pin
 #define PWM_PIN 9

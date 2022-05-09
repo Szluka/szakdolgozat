@@ -37,7 +37,6 @@ short int Mode = 0;
 #define BLYNK_DEVICE_NAME "arduino"
 #define BLYNK_AUTH_TOKEN "YiEul3kzxRmWeM5bYI5hHlk6o5TmtkTA"
 
-// Comment this out to disable prints and save space
 #define BLYNK_PRINT Serial
 
 #include <ESP8266_Lib.h>
@@ -60,8 +59,6 @@ BlynkTimer timer;
 
 void myTimerEvent()
 {
-  // You can send any value at any time.
-  // Please don't send more that 10 values per second.
   Blynk.virtualWrite(V5, millis() / 1000);
 }
 
@@ -84,6 +81,8 @@ void setup() {
   Blynk.begin(auth, wifi, ssid, pass);
 
   timer.setInterval(1000L, myTimerEvent);
+
+  WheelBrakeOFF;
   }
 
   lcd.clear();
@@ -100,12 +99,11 @@ void loop() {
   indexing();
   fek_gaz();
   sebvalto();
-  //communication();
 
   //teszteles();
 }
 
-BLYNK_WRITE(V0) // Executes when the value of virtual pin 0 changes
+BLYNK_WRITE(V0)
 {
   if (Mode == 1) {
     lcd.setCursor(8, 0);
@@ -123,23 +121,21 @@ BLYNK_WRITE(V0) // Executes when the value of virtual pin 0 changes
   }
 }
 
-BLYNK_WRITE(V7) // Executes when the value of virtual pin 0 changes
+BLYNK_WRITE(V7)
 {
   if (Mode == 1) {
     wifiWheelPercent = param.asInt();
-    //lcd.setCursor(14, 0);
-    //lcd.print(wifiWheelPercent);
   }
 }
 
-BLYNK_WRITE(V8) // Executes when the value of virtual pin 0 changes
+BLYNK_WRITE(V8)
 {
   if (Mode == 1) {
     wifiGasPercent = param.asInt();
   }
 }
 
-BLYNK_WRITE(V9) // Executes when the value of virtual pin 0 changes
+BLYNK_WRITE(V9)
 {
   lcd.setCursor(3, 0);
   switch (param.asInt())
